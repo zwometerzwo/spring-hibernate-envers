@@ -6,10 +6,14 @@ import de.mjis.springhibernateenvers.domain.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @RestController
 public class UserController {
 
     private final UserRepository userRepository;
+
+    private final AtomicInteger counter = new AtomicInteger(0);
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -18,7 +22,7 @@ public class UserController {
     @GetMapping("/insert")
     public User insert() {
         UserJpaEntity inputEntity = new UserJpaEntity();
-        inputEntity.setName("Mathias");
+        inputEntity.setName("Matthias");
         UserJpaEntity savedEntity = userRepository.save(inputEntity);
 
         User returnUser = new User();
@@ -30,7 +34,7 @@ public class UserController {
     @GetMapping("/update")
     public User update() {
         UserJpaEntity updateEntity = userRepository.getById("1");
-        updateEntity.setName("Matthias");
+        updateEntity.setName("Matthias" + counter.getAndIncrement());
         UserJpaEntity savedEntity = userRepository.save(updateEntity);
 
         User returnUser = new User();
