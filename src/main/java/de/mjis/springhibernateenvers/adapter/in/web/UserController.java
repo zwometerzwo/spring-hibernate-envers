@@ -68,7 +68,7 @@ public class UserController {
             User user = new User();
             user.setId(revisionEntity.getUserJpaEntity().getId());
             user.setName(revisionEntity.getUserJpaEntity().getName());
-            RevisionedUser revisionedUser = new RevisionedUser(user, revisionEntity.getRevision());
+            RevisionedUser revisionedUser = new RevisionedUser(user, revisionEntity.getRevision(), revisionEntity.getTimestamp());
             revisionedUserList.add(revisionedUser);
         });
 

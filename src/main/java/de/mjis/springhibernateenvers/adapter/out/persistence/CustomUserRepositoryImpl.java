@@ -7,6 +7,7 @@ import org.hibernate.envers.AuditReaderFactory;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CustomUserRepositoryImpl implements CustomUserRepository {
@@ -23,12 +24,15 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         List<Number> revisions = auditReader.getRevisions(UserJpaEntity.class, id);
 
         revisions.stream().forEach(revision -> {
+            Date revisionDate = AuditReaderFactory.get(entityManager).getRevisionDate(revision);
+            Long timestamp = revisionDate.toInstant().getEpochSecond();
+
             UserJpaEntity userJpaEntity = (UserJpaEntity) AuditReaderFactory
                     .get(entityManager)
                     .createQuery()
                     .forEntitiesAtRevision(UserJpaEntity.class, revision)
                     .getSingleResult();
-            RevisionedUserJpaEntity revisionedUserJpaEntity = new RevisionedUserJpaEntity(userJpaEntity, revision);
+            RevisionedUserJpaEntity revisionedUserJpaEntity = new RevisionedUserJpaEntity(userJpaEntity, revision, timestamp);
             revisionedUserJpaEntityList.add(revisionedUserJpaEntity);
         });
 

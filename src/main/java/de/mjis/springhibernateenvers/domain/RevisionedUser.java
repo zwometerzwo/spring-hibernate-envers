@@ -5,9 +5,12 @@ public class RevisionedUser {
 
     private Number revision;
 
-    public RevisionedUser(User user, Number revision) {
+    private Long timestamp;
+
+    public RevisionedUser(User user, Number revision, Long timestamp) {
         this.user = user;
         this.revision = revision;
+        this.timestamp = timestamp;
     }
 
     public User getUser() {
@@ -16,5 +19,9 @@ public class RevisionedUser {
 
     public Number getRevision() {
         return revision;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 }

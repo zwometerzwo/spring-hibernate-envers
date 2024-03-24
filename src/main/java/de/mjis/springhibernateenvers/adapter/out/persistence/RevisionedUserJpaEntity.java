@@ -5,9 +5,12 @@ public class RevisionedUserJpaEntity {
 
     private Number revision;
 
-    public RevisionedUserJpaEntity(UserJpaEntity userJpaEntity, Number revision) {
+    private Long timestamp;
+
+    public RevisionedUserJpaEntity(UserJpaEntity userJpaEntity, Number revision, Long timestamp) {
         this.userJpaEntity = userJpaEntity;
         this.revision = revision;
+        this.timestamp = timestamp;
     }
 
     public UserJpaEntity getUserJpaEntity() {
@@ -16,5 +19,9 @@ public class RevisionedUserJpaEntity {
 
     public Number getRevision() {
         return revision;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 }
