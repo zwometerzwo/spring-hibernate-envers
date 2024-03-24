@@ -18,11 +18,34 @@ public class UserController {
     @GetMapping("/insert")
     public User insert() {
         UserJpaEntity inputEntity = new UserJpaEntity();
-        inputEntity.setName("John");
+        inputEntity.setName("Mathias");
         UserJpaEntity savedEntity = userRepository.save(inputEntity);
+
         User returnUser = new User();
         returnUser.setId(savedEntity.getId());
         returnUser.setName(savedEntity.getName());
+        return returnUser;
+    }
+
+    @GetMapping("/update")
+    public User update() {
+        UserJpaEntity updateEntity = userRepository.getById("1");
+        updateEntity.setName("Matthias");
+        UserJpaEntity savedEntity = userRepository.save(updateEntity);
+
+        User returnUser = new User();
+        returnUser.setId(savedEntity.getId());
+        returnUser.setName(savedEntity.getName());
+        return returnUser;
+    }
+
+    @GetMapping("/older")
+    public User older() {
+        UserJpaEntity olderEntity = userRepository.previousRevision(1L);
+
+        User returnUser = new User();
+        returnUser.setId(olderEntity.getId());
+        returnUser.setName(olderEntity.getName());
         return returnUser;
     }
 }
