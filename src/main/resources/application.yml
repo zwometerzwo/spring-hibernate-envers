@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: spring-hibernate-envers
+  datasource:
+    url: jdbc:h2:mem:envers
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  h2:
+    console.enabled: true
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-root.sql
+    drop-first: true
+  hibernate:
+    show_sql: true
+    format_sql: true
+    highlight_sql: true
