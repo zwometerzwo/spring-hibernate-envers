@@ -7,7 +7,7 @@ CREATE TABLE REVINFO (
 );
 
 CREATE TABLE users (
-    id bigint primary key,
+    id bigint auto_increment primary key,
     name varchar(255)
 );
 
