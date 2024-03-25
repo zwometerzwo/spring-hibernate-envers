@@ -21,3 +21,9 @@ CREATE TABLE users_AUD (
     REFERENCES REVINFO (REV)
     ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+
+CREATE TABLE tags (
+    id bigint auto_increment primary key,
+    name varchar(255),
+    tstmp bigint
+);

@@ -1,9 +1,8 @@
 package de.mjis.springhibernateenvers.adapter.in.web;
 
-import de.mjis.springhibernateenvers.adapter.out.persistence.RevisionedUserJpaEntity;
-import de.mjis.springhibernateenvers.adapter.out.persistence.UserJpaEntity;
-import de.mjis.springhibernateenvers.adapter.out.persistence.UserRepository;
+import de.mjis.springhibernateenvers.adapter.out.persistence.*;
 import de.mjis.springhibernateenvers.domain.RevisionedUser;
+import de.mjis.springhibernateenvers.domain.Tag;
 import de.mjis.springhibernateenvers.domain.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,10 +17,13 @@ public class UserController {
 
     private final UserRepository userRepository;
 
+    private final TagRepository tagRepository;
+
     private final AtomicInteger counter = new AtomicInteger(0);
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, TagRepository tagRepository) {
         this.userRepository = userRepository;
+        this.tagRepository = tagRepository;
     }
 
     @GetMapping("/insert")
@@ -92,6 +94,36 @@ public class UserController {
     @GetMapping("/oldtimestamp/{timestamp}")
     public User oldtimestamp(@PathVariable Long timestamp) {
         UserJpaEntity oldUserJpaEntity = userRepository.getUserByIdAndTimestamp(1L, timestamp);
+
+        UserJpaEntity updateEntity = userRepository.getById("1");
+        updateEntity.setName(oldUserJpaEntity.getName());
+        UserJpaEntity savedEntity = userRepository.save(updateEntity);
+
+        User returnUser = new User();
+        returnUser.setId(savedEntity.getId());
+        returnUser.setName(savedEntity.getName());
+        return returnUser;
+    }
+
+    @GetMapping("/settag/{tagname}")
+    public Tag settag(@PathVariable String tagname) {
+        TagJpaEntity tagJpaEntity = new TagJpaEntity();
+        tagJpaEntity.setName(tagname);
+        tagJpaEntity.setTstmp(System.currentTimeMillis());
+        TagJpaEntity savedTagJpaEntity = tagRepository.save(tagJpaEntity);
+
+        Tag tag = new Tag();
+        tag.setId(savedTagJpaEntity.getId());
+        tag.setName(savedTagJpaEntity.getName());
+        tag.setTstmp(savedTagJpaEntity.getTstmp());
+        return tag;
+    }
+
+    @GetMapping("/gettag/{tagid}")
+    public User gettag(@PathVariable Long tagid) {
+        TagJpaEntity tagJpaEntity = tagRepository.getById(tagid);
+
+        UserJpaEntity oldUserJpaEntity = userRepository.getUserByIdAndTimestamp(1L, tagJpaEntity.getTstmp());
 
         UserJpaEntity updateEntity = userRepository.getById("1");
         updateEntity.setName(oldUserJpaEntity.getName());
