@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping("/get")
     public User get() {
-        UserJpaEntity getEntity = userRepository.getById("1");
+        UserJpaEntity getEntity = userRepository.getById(1L);
 
         User returnUser = new User();
         returnUser.setId(getEntity.getId());
@@ -50,7 +50,7 @@ public class UserController {
 
     @GetMapping("/update")
     public User update() {
-        UserJpaEntity updateEntity = userRepository.getById("1");
+        UserJpaEntity updateEntity = userRepository.getById(1L);
         updateEntity.setName("Matthias" + counter.getAndIncrement());
         UserJpaEntity savedEntity = userRepository.save(updateEntity);
 
@@ -81,7 +81,7 @@ public class UserController {
     public User oldrevision(@PathVariable Long revision) {
         UserJpaEntity oldUserJpaEntity = userRepository.getUserByIdAndRevision(1L, revision);
 
-        UserJpaEntity updateEntity = userRepository.getById("1");
+        UserJpaEntity updateEntity = userRepository.getById(1L);
         updateEntity.setName(oldUserJpaEntity.getName());
         UserJpaEntity savedEntity = userRepository.save(updateEntity);
 
@@ -95,7 +95,7 @@ public class UserController {
     public User oldtimestamp(@PathVariable Long timestamp) {
         UserJpaEntity oldUserJpaEntity = userRepository.getUserByIdAndTimestamp(1L, timestamp);
 
-        UserJpaEntity updateEntity = userRepository.getById("1");
+        UserJpaEntity updateEntity = userRepository.getById(1L);
         updateEntity.setName(oldUserJpaEntity.getName());
         UserJpaEntity savedEntity = userRepository.save(updateEntity);
 
@@ -125,7 +125,7 @@ public class UserController {
 
         UserJpaEntity oldUserJpaEntity = userRepository.getUserByIdAndTimestamp(1L, tagJpaEntity.getTstmp());
 
-        UserJpaEntity updateEntity = userRepository.getById("1");
+        UserJpaEntity updateEntity = userRepository.getById(1L);
         updateEntity.setName(oldUserJpaEntity.getName());
         UserJpaEntity savedEntity = userRepository.save(updateEntity);
 
